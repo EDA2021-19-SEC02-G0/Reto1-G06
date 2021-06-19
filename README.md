@@ -10,9 +10,9 @@ Este directorio contiene todo el código de base que se entrega para el funciona
     
     |-- ADT:  Directorio con los Tipos Abstractos de Datos del curso
 
-    |--DataStructures: Directorio con todas las estructuras de datos y archivos auxiliares para su     correcto funcionamiento
+    |-- DataStructures: Directorio con todas las estructuras de datos y archivos auxiliares para su correcto funcionamiento
 
-    |--Algorithms: Implementación de los algoritmos vistos en el curso (por ejemplo algoritmos de ordenamiento)
+    |-- Algorithms: Implementación de los algoritmos vistos en el curso (por ejemplo algoritmos de ordenamiento)
 
     |-- Utils: Funciones auxiliares para el funcionamiento de los TADs y estructuras de datos
 
