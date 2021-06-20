@@ -76,7 +76,7 @@ while True:
         number = input("Buscar los TOP ?: ")
         country = input("Buscar en país: ")
         category = input("Buscar en categoría: ")
-        videos = controller.topVidCountryCat(number, pais, categoria)
+        videos = controller.topVidCountryCat(number, country, category)
         print(videos)
     
     elif int(inputs[0]) == 3:
@@ -98,4 +98,4 @@ while True:
 
     else:
         sys.exit(0)
-sys.exit(0)
+

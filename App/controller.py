@@ -49,20 +49,21 @@ def loadData(catalog):
     loadCategories(catalog)
 
 
+def loadCategories(catalog):
+    catfile = cf.data_dir + "Videos/videos-small.csv"
+    input_file = csv.DictReader(open(catfile,encoding='utf-8'))
+    for category in input_file:
+        model.loadCategory(catalog, category)
+
 def loadVideos(catalog):
     # TODO Cambiar a videos-large.csv para producción
     vidsfile = cf.data_dir + "Videos/videos-small.csv"
-    input_file = csv.DictReader(open(vidsfile, 
-                                        encoding='utf-8'))
-    
-
-def loadCategories(catalog):
-    catfile = cf.data_dir + "Videos/videos-small.csv"
-    input_file = csv.DictReader(open(catfile,
-                                    encoding='utf-8'))
-    
-
+    input_file = csv.DictReader(open(vidsfile,encoding='utf-8'))
+    for video in input_file:
+        model.addVideo(catalog, video)
 
 # Funciones de ordenamiento
+
+
 
 # Funciones de consulta sobre el catálogo
