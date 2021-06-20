@@ -49,10 +49,9 @@ def newCatalog():
         "countries": None,
         "tags": None,
         "categories": None,
-        "vid_cat": None
     }
     
-    catalog["books"] = lt.newList("ARRAY_LIST")
+    catalog["videos"] = lt.newList("ARRAY_LIST")
     catalog["countries"] = lt.newList("ARRAY_LIST")
     catalog["tags"] = lt.newList("ARRAY_LIST")
     catalog["categories"] = lt.newList("ARRAY_LIST")
@@ -189,5 +188,6 @@ def newTag(tagName):
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 # TODO Funciones de comparación
+
 
 # Funciones de ordenamiento
