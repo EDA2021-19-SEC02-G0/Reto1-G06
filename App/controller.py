@@ -59,8 +59,12 @@ def loadVideos(catalog):
     # TODO Cambiar a videos-large.csv para producción
     vidsfile = cf.data_dir + "Videos/videos-small.csv"
     input_file = csv.DictReader(open(vidsfile,encoding='utf-8'))
+    i = 1 #TODO delete for production
     for video in input_file:
+        if i % 50 == 0: #TODO Delete for production
+            print("Cargando video", i)
         model.addVideo(catalog, video)
+        i += 1
 
 # Funciones de ordenamiento
 

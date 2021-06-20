@@ -42,6 +42,7 @@ def printMenu():
     print("3- Vídeo que más días ha sido trending en un país")
     print("4- Video que más días ha sido trending en una categoría")
     print("5- N videos con más comentarios en país")
+    print("0- Salir")
 
 
 def initCatalog():
@@ -70,7 +71,9 @@ while True:
         catalog = initCatalog()
         loadData(catalog)
         print('Videos cargados: ' + str(lt.size(catalog['videos'])))
-        print('Categorías cargadas: ' + str(lt.size(catalog['category'])))
+        print('Categorías cargadas: ' + str(lt.size(catalog['categories'])))
+        print("Paises cargados", lt.size(catalog["countries"]))
+        print("Tags cargados", lt.size(catalog["tags"]))
 
     elif int(inputs[0]) == 2:
         number = input("Buscar los TOP ?: ")

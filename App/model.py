@@ -51,7 +51,7 @@ def newCatalog():
         "categories": None,
     }
     
-    catalog["videos"] = lt.newList("ARRAY_LIST")
+    catalog["videos"] = lt.newList("SINGLE_LINKED")
     catalog["countries"] = lt.newList("ARRAY_LIST", comparecountry)
     catalog["tags"] = lt.newList("ARRAY_LIST", comparetags)
     catalog["categories"] = lt.newList("ARRAY_LIST", comparecats)
