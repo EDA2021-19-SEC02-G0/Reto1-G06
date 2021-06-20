@@ -42,6 +42,7 @@ def printMenu():
     print("3- Vídeo que más días ha sido trending en un país")
     print("4- Video que más días ha sido trending en una categoría")
     print("5- N videos con más comentarios en país")
+    print("0- Salir")
 
 
 def initCatalog():
@@ -70,11 +71,34 @@ while True:
         catalog = initCatalog()
         loadData(catalog)
         print('Videos cargados: ' + str(lt.size(catalog['videos'])))
-        print('Categorías cargadas: ' + str(lt.size(catalog['category'])))
+        print('Categorías cargadas: ' + str(lt.size(catalog['categories'])))
+        print("Paises cargados", lt.size(catalog["countries"]))
+        print("Tags cargados", lt.size(catalog["tags"]))
 
     elif int(inputs[0]) == 2:
-        pass
+        number = input("Buscar los TOP ?: ")
+        country = input("Buscar en país: ")
+        category = input("Buscar en categoría: ")
+        videos = controller.topVidCountryCat(number, country, category)
+        print(videos)
+    
+    elif int(inputs[0]) == 3:
+        country = input("Buscar en país: ")
+        videos = controller.trendingVidCountry(country)
+        print(videos)
+
+    elif int(inputs[0]) == 4:
+        category = input("Buscar en categoría: ")
+        videos = controller.trendingVidCat(category)
+        print(videos)
+
+    elif int(inputs[0]) == 5:
+        country = input("Buscar en país: ")
+        number = input("Número de videos a listar: ")
+        tag = input("Etiqueta (tag) a buscar: ")
+        videos = controller.mostCommentedVid(country, number, tag)
+        print(videos)
 
     else:
         sys.exit(0)
-sys.exit(0)
+
