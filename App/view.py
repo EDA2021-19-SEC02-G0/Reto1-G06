@@ -73,7 +73,28 @@ while True:
         print('Categorías cargadas: ' + str(lt.size(catalog['category'])))
 
     elif int(inputs[0]) == 2:
-        pass
+        number = input("Buscar los TOP ?: ")
+        country = input("Buscar en país: ")
+        category = input("Buscar en categoría: ")
+        videos = controller.topVidCountryCat(number, pais, categoria)
+        print(videos)
+    
+    elif int(inputs[0]) == 3:
+        country = input("Buscar en país: ")
+        videos = controller.trendingVidCountry(country)
+        print(videos)
+
+    elif int(inputs[0]) == 4:
+        category = input("Buscar en categoría: ")
+        videos = controller.trendingVidCat(category)
+        print(videos)
+
+    elif int(inputs[0]) == 5:
+        country = input("Buscar en país: ")
+        number = input("Número de videos a listar: ")
+        tag = input("Etiqueta (tag) a buscar: ")
+        videos = controller.mostCommentedVid(country, number, tag)
+        print(videos)
 
     else:
         sys.exit(0)
