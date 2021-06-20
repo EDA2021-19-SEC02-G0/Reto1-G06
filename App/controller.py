@@ -38,7 +38,7 @@ def initCatalog():
     catalog = model.newCatalog()
     return catalog
 
-# Funciones para la carga de datos\
+# Funciones para la carga de datos
 
 def loadData(catalog):
     """

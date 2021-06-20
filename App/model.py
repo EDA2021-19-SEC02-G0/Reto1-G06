@@ -156,7 +156,7 @@ def newCategory(catId, catName):
     Crea una estructura para modelar los videos de una
     categoría
     """
-    category = {"id": catId, "name": catName, "videos": None}
+    category = {"id": int(catId), "name": catName, "videos": None}
     category["videos"] = lt.newList("ARRAY_LIST")
 
     return category
@@ -187,7 +187,60 @@ def newTag(tagName):
 # Funciones de consulta
 
 # Funciones utilizadas para comparar elementos dentro de una lista
-# TODO Funciones de comparación
+def comparecountry(countryName, country):
+    """
+    Compara si un str es igual al nombre de un elemento
+    country
+
+    Args:
+        countryName: str a comparar con nombre de elemento country
+        country: elemento country
+    
+    Returns:
+        0 (int): si son iguales
+        -1 (int): si son dieferentes
+    """
+    if countryName.lower() == country["name"].lower():
+        return 0
+    return -1
+
+
+def comparetags(tagName, tag):
+    """
+    Compara si un str es igual al nombre de un elemento
+    tag
+
+    Args:
+        countryName: str a comparar con nombre de elemento tag
+        country: elemento tag
+    
+    Returns:
+        0 (int): si son iguales
+        -1 (int): si son dieferentes
+    """
+    if tagName.lower() == tag.lower():
+        return 0
+    return -1
+
+
+def comparecats(catId, cat):
+    """
+    Compara un int con el id de un elemento category
+
+    Args:
+        countryName: int a comparar con nombre de elemento category
+        country: elemento category
+    
+    Returns:
+        1 (int): si int > cat["id"]
+        -1 (int): si int < cat["id"]
+        0 (int): si son iguales
+    """
+    if catId > cat["id"]:
+        return 1
+    elif catId < cat["id"]:
+        return -1
+    return 0
 
 
 # Funciones de ordenamiento
