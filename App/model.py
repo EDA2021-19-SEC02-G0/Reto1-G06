@@ -52,9 +52,9 @@ def newCatalog():
     }
     
     catalog["videos"] = lt.newList("ARRAY_LIST")
-    catalog["countries"] = lt.newList("ARRAY_LIST")
-    catalog["tags"] = lt.newList("ARRAY_LIST")
-    catalog["categories"] = lt.newList("ARRAY_LIST")
+    catalog["countries"] = lt.newList("ARRAY_LIST", comparecountry)
+    catalog["tags"] = lt.newList("ARRAY_LIST", comparetags)
+    catalog["categories"] = lt.newList("ARRAY_LIST", comparecats)
 
     return catalog
 
@@ -76,7 +76,7 @@ def addVideo(catalog, video):
     Añade un video a la lista de videos.
     """
     #Se adiciona el video a la lista de videos
-    lt.addLast(catalog, video)
+    lt.addLast(catalog["videos"], video)
     #Se obtiene el país del video
     country = video["country"]
     #Se añade el pais a la lista de paises (incluye asociación
@@ -218,7 +218,7 @@ def comparetags(tagName, tag):
         0 (int): si son iguales
         -1 (int): si son dieferentes
     """
-    if tagName.lower() == tag.lower():
+    if tagName.lower() == tag["name"].lower():
         return 0
     return -1
 
@@ -236,9 +236,9 @@ def comparecats(catId, cat):
         -1 (int): si int < cat["id"]
         0 (int): si son iguales
     """
-    if catId > cat["id"]:
+    if int(catId) > int(cat["id"]):
         return 1
-    elif catId < cat["id"]:
+    elif int(catId) < int(cat["id"]):
         return -1
     return 0
 
