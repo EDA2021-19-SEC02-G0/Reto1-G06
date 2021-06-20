@@ -186,6 +186,10 @@ def newTag(tagName):
 
 # Funciones de consulta
 
+def mostLiked (category,country,n):
+
+    return None
+
 # Funciones utilizadas para comparar elementos dentro de una lista
 def comparecountry(countryName, country):
     """
@@ -241,6 +245,14 @@ def comparecats(catId, cat):
     elif int(catId) < int(cat["id"]):
         return -1
     return 0
-
+def comparelikes(video1,video2):
+    return (float(video1['likes'])>float(video2['likes']))
+def compareviews(video1,video2):
+    return (float(video1['views'])>float(video2['views']))
 
 # Funciones de ordenamiento
+def sortBooksByLikes(catalog):
+    sa.sort(catalog['video'], comparelikes)
+def sortBooksByViews(catalog):
+    sa.sort(catalog['video'], compareviews)
+
