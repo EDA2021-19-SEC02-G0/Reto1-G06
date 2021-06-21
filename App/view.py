@@ -45,6 +45,33 @@ def printMenu():
     print("0- Salir")
 
 
+def printRow(row: list) -> None:
+    """
+    Imprime la fila de una tabla. Si el largo de los datos supera el ancho de la columna,
+    imprime el dato incompleto con ...
+
+    Args:
+        row: Lista de listas. Row debe ser de la forma [<lens>, <data>]
+            <lens>: (list) Lista con ancho de las columnas
+            <data>: (list) Lista con datos de las columnas
+
+    TODO Manejo de ancho y caracteres asiaticos
+    """
+    rowFormat = ""
+    for i in range(0, len(row[0])):
+        colWidth = row[0][i]
+        cell = str(row[1][i])
+        #Añade la columna al formato
+        rowFormat += "{:<" + str(colWidth) + "}"
+        #Revisa y corrige si el tamaño de los datos es más grande que la columna
+        if len(cell) > colWidth:
+            row[1][i] = cell[0:colWidth - 3] + "..."
+    
+    #Imrpime la fila
+    print(rowFormat.format(*row[1]))
+    
+
+
 def initCatalog():
     """
     Inicializa el catálogo de videos
@@ -70,10 +97,31 @@ while True:
         print("Cargando información de los archivos ....")
         catalog = initCatalog()
         loadData(catalog)
-        print('Videos cargados: ' + str(lt.size(catalog['videos'])))
-        print('Categorías cargadas: ' + str(lt.size(catalog['categories'])))
-        print("Paises cargados", lt.size(catalog["countries"]))
-        print("Tags cargados", lt.size(catalog["tags"]))
+        print('Videos cargados: ' + str(lt.size(catalog['videos'])) + "\n")
+        #Información del primer video cargado
+        firstVid = lt.getElement(catalog["videos"], 1)
+        print("Primer video cargado:")
+        printRow([[30,20,15,15,10,10,10], ["Titulo", "Canal", "Trend Date", "País", "Vistas", "Likes", "Dislikes"]])
+        printRow([
+            [30,20,15,15,10,10,10],
+            [firstVid["title"][0:-1], firstVid["channel_title"], firstVid["trending_date"], firstVid["country"], 
+            firstVid["views"], firstVid["likes"], firstVid["dislikes"]]
+        ])
+        print("")
+        #Información de categorías cargadas
+        print("Categorías cargadas:")
+        printRow([
+            [4,30],
+            ["id", "Nombre"]
+        ])
+        for i in range(1, lt.size(catalog["categories"]) + 1):
+            cat = lt.getElement(catalog["categories"], i)
+            printRow([
+                [4,30],
+                [cat["id"], cat["name"]]
+            ])
+        print("")
+
 
     elif int(inputs[0]) == 2:
         number = input("Buscar los TOP ?: ")
