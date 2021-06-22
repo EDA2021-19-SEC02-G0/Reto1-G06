@@ -186,7 +186,16 @@ def newTag(tagName):
 
 # Funciones de consulta
 
-def mostLiked (category,country,n):
+def mostLiked (catalog,category,country):
+    likedvideos=lt.newList()
+    vid=catalog['video']
+    poscat=lt.isPresent(catalog['category'],category)
+    postcount=lt.isPresent(catalog['country'],country)
+    if poscat >0 and postcount>0:
+       return None
+    return None
+ #no se como completar la funciion anterior   
+
 
     return None
 
