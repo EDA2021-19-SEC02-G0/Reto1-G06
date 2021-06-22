@@ -254,14 +254,33 @@ def comparecats(catId, cat):
     elif int(catId) < int(cat["id"]):
         return -1
     return 0
-def comparelikes(video1,video2):
-    return (float(video1['likes'])>float(video2['likes']))
-def compareviews(video1,video2):
-    return (float(video1['views'])>float(video2['views']))
+
+def cmpVideosByLikes(video1, video2):
+    """
+    Devuelve verdadero (True) si los likes de video1 son menores que los del video2
+    Args:
+    video1: informacion del primer video que incluye su valor 'likes'
+    video2: informacion del segundo video que incluye su valor 'likes'
+    """
+    return int(video1["likes"]) > int(video2["likes"])
+
+
+def compareviews(video1, video2):
+    """
+    Devielve verdadero si las vistas del video 1 son mayores a las vistas del video 2
+
+    Args:
+    video1: Elemento video que incluye llave "views"
+    video2: Elemento video que incluye llave "views"
+    """
+    return int(video1['views']) > int(video2['views'])
+
 
 # Funciones de ordenamiento
+"""
 def sortBooksByLikes(catalog):
     sa.sort(catalog['video'], comparelikes)
 def sortBooksByViews(catalog):
     sa.sort(catalog['video'], compareviews)
+"""
 
