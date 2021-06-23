@@ -94,6 +94,12 @@ while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
+        x=input("Seleccione 1 para representar los datos en una array list o 2 para una linked list")
+        if x==1:
+            controller.inittipo(1)
+        else:
+            controller.inittipo(2)
+    
         print("Cargando información de los archivos ....")
         catalog = initCatalog()
         loadData(catalog)

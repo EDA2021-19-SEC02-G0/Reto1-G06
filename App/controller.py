@@ -37,7 +37,9 @@ def initCatalog():
     """
     catalog = model.newCatalog()
     return catalog
-
+def inittipo(x):
+    catalog=model.tipo(x)
+    return catalog
 # Funciones para la carga de datos
 
 def loadData(catalog):

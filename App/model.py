@@ -50,11 +50,18 @@ def newCatalog():
         "tags": None,
         "categories": None,
     }
-    
-    catalog["videos"] = lt.newList("SINGLE_LINKED")
-    catalog["countries"] = lt.newList("ARRAY_LIST", comparecountry)
-    catalog["tags"] = lt.newList("ARRAY_LIST", comparetags)
-    catalog["categories"] = lt.newList("ARRAY_LIST", comparecats)
+def tipo(catalog,x):
+    if x==1:
+        catalog["videos"] = lt.newList("ARRAY_LIST")
+        catalog["countries"] = lt.newList("ARRAY_LIST", comparecountry)
+        catalog["tags"] = lt.newList("ARRAY_LIST", comparetags)
+        catalog["categories"] = lt.newList("ARRAY_LIST", comparecats)
+    else:
+        catalog["videos"] = lt.newList("Linked_List")
+        catalog["countries"] = lt.newList("Linked_List", comparecountry)
+        catalog["tags"] = lt.newList("Linked_List", comparetags)
+        catalog["categories"] = lt.newList("Linked_List", comparecats)
+
 
     return catalog
 
