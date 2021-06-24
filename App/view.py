@@ -72,11 +72,11 @@ def printRow(row: list) -> None:
     
 
 
-def initCatalog():
+def initCatalog(type):
     """
     Inicializa el catálogo de videos
     """
-    return controller.initCatalog()
+    return controller.initCatalog(type)
 
 
 def loadData(catalog):
@@ -94,14 +94,14 @@ while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
-        x=input("Seleccione 1 para representar los datos en una array list o 2 para una linked list")
-        if x==1:
-            controller.inittipo(1)
-        else:
-            controller.inittipo(2)
-    
+        #Le permite al usuario seleccionar la estructura de datos
+        print("Seleccione:")
+        print("1- Cargar los datos en ARRAY LIST")
+        print("2- Cargar los datos en SINGLE LIKED LIST")
+        type = int(input("> ")[0])
+        #Carga los datos
         print("Cargando información de los archivos ....")
-        catalog = initCatalog()
+        catalog = initCatalog(type)
         loadData(catalog)
         print('Videos cargados: ' + str(lt.size(catalog['videos'])) + "\n")
         #Información del primer video cargado

@@ -25,6 +25,7 @@
  """
 
 
+from os import stat_result
 import config as cf
 from DISClib.ADT import list as lt
 from DISClib.Algorithms.Sorting import shellsort as sa
@@ -37,33 +38,38 @@ los mismos.
 
 # Construccion de modelos
 
-def newCatalog():
+def newCatalog(type):
     """
     Inicializa el catálogo de videos. Crea una lista vacia para guardar
     todos los videos, adicionalmente, crea una lista vacia para las categorías,
     una lista vacía para las asociaciones video - categoría y una lista vacía
-    para los paises. Retorna el catálogo inicializado.
+    para los paises. Retorna el catálogo inicializado. Dependiendo el type pasado inicializa
+    las listas con ARRAY_LIST o SINGLE_LINKED
+
+    Args:
+        type: int -- 1 para cargar los datos en ARRAY_LIST, 2 para cargar los datos en SINGLE_LINKED
     """
+    if type == 1:
+        lstType = "ARRAY_LIST"
+    elif type == 2:
+        lstType = "SINGLE_LINKED"
+    else:
+        raise Exception("Invalid type in model.newCatalog()")
+        
     catalog = {
         "videos": None,
         "countries": None,
         "tags": None,
         "categories": None,
     }
-def tipo(catalog,x):
-    if x==1:
-        catalog["videos"] = lt.newList("ARRAY_LIST")
-        catalog["countries"] = lt.newList("ARRAY_LIST", comparecountry)
-        catalog["tags"] = lt.newList("ARRAY_LIST", comparetags)
-        catalog["categories"] = lt.newList("ARRAY_LIST", comparecats)
-    else:
-        catalog["videos"] = lt.newList("Linked_List")
-        catalog["countries"] = lt.newList("Linked_List", comparecountry)
-        catalog["tags"] = lt.newList("Linked_List", comparetags)
-        catalog["categories"] = lt.newList("Linked_List", comparecats)
 
+    catalog["videos"] = lt.newList(lstType)
+    catalog["countries"] = lt.newList(lstType, comparecountry)
+    catalog["tags"] = lt.newList(lstType, comparetags)
+    catalog["categories"] = lt.newList(lstType, comparecats)
 
     return catalog
+
 
 # Funciones para agregar informacion al catalogo
 
