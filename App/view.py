@@ -20,14 +20,14 @@
  * along withthis program.  If not, see <http://www.gnu.org/licenses/>.
  """
 
-from time import process_time
-import winsound
 import config as cf
-from winsound import Beep
 import sys
 import controller
 from DISClib.ADT import list as lt
 assert cf
+from platform import system
+if system() == "Windows":
+    from winsound import Beep as Bp
 
 
 """
@@ -36,6 +36,10 @@ Presenta el menu de opciones y por cada seleccion
 se hace la solicitud al controlador para ejecutar la
 operación solicitada
 """
+
+def Beep(frec, time):
+    if system == "Windows":
+        Bp(frec, time)
 
 
 def printMenu():
@@ -106,7 +110,7 @@ while True:
         print("Cargando información de los archivos ....")
         catalog = initCatalog(type)
         loadData(catalog)
-        winsound.Beep(1000, 2000)
+        Beep(1000, 2000)
         print('Videos cargados: ' + str(lt.size(catalog['videos'])) + "\n")
         #Información del primer video cargado
         firstVid = lt.getElement(catalog["videos"], 1)
