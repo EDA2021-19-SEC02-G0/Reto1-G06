@@ -140,7 +140,7 @@ while True:
         sampleSize = int(input("Tamaño de la muestra (entre 1 y", catalog["videos"]["size"], "): "))
         while (sampleSize > catalog["videos"]["size"]) or (sampleSize < 1):
             print("Tamaño de la muestra inválido, intente nuevamente")
-            sampleSize = int(input("Tamaño de la muestra (entre 1 y", catalog["videos"]["size"], "): "))
+            sampleSize = int(input("Tamaño de la muestra (entre 1 y", catalog["videos"]["size"] + "): "))
         
         #Tipo de ordenamiento
         print("Seleccione el algoritmo de ordenamiento:")
