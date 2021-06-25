@@ -20,7 +20,10 @@
  * along withthis program.  If not, see <http://www.gnu.org/licenses/>.
  """
 
+from time import process_time
+import winsound
 import config as cf
+from winsound import Beep
 import sys
 import controller
 from DISClib.ADT import list as lt
@@ -38,7 +41,7 @@ operación solicitada
 def printMenu():
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
-    print("2- Top N videos con más likes tendencia en país - categoría")
+    print("2- Top N videos con más likes tendencia en país - categoría") #REQ 1
     print("3- Vídeo que más días ha sido trending en un país")
     print("4- Video que más días ha sido trending en una categoría")
     print("5- N videos con más comentarios en país")
@@ -103,6 +106,7 @@ while True:
         print("Cargando información de los archivos ....")
         catalog = initCatalog(type)
         loadData(catalog)
+        winsound.Beep(1000, 2000)
         print('Videos cargados: ' + str(lt.size(catalog['videos'])) + "\n")
         #Información del primer video cargado
         firstVid = lt.getElement(catalog["videos"], 1)
@@ -128,13 +132,26 @@ while True:
             ])
         print("")
 
-
     elif int(inputs[0]) == 2:
-        number = input("Buscar los TOP ?: ")
+        number = int(input("Buscar los TOP ?: "))
         country = input("Buscar en país: ")
         category = input("Buscar en categoría: ")
-        videos = controller.topVidCountryCat(number, country, category)
-        print(videos)
+        #Tamaño de la muestra
+        sampleSize = int(input("Tamaño de la muestra (entre 1 y", catalog["videos"]["size"], "): "))
+        while (sampleSize > catalog["videos"]["size"]) or (sampleSize < 1):
+            print("Tamaño de la muestra inválido, intente nuevamente")
+            sampleSize = int(input("Tamaño de la muestra (entre 1 y", catalog["videos"]["size"], "): "))
+        
+        #Tipo de ordenamiento
+        print("Seleccione el algoritmo de ordenamiento:")
+        print("1- Selection Sort")
+        print("2- Insertion Sort")
+        print("3- Shell Sort")
+        srtType = int(input("> ")[0])
+        orderedSample = controller.srtVidsByLikes(catalog,
+        sampleSize, srtType)
+        print("Tiempo de ejecución: (s)", orderedSample[1])
+        #TODO Output result
     
     elif int(inputs[0]) == 3:
         country = input("Buscar en país: ")

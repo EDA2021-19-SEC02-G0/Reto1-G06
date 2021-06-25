@@ -58,7 +58,7 @@ def loadCategories(catalog):
 
 def loadVideos(catalog):
     # TODO Cambiar a videos-large.csv para producción
-    vidsfile = cf.data_dir + "Videos/videos-small.csv"
+    vidsfile = cf.data_dir + "Videos/videos-large.csv"
     input_file = csv.DictReader(open(vidsfile,encoding='utf-8'))
     i = 1 #TODO delete for production
     for video in input_file:
@@ -68,7 +68,11 @@ def loadVideos(catalog):
         i += 1
 
 # Funciones de ordenamiento
-
+def srtVidsByLikes(catalog, sampleSize, srtType):
+    """
+    Llama a la función sortVidsByLikes del model.py
+    """
+    return model.srtVidsByLikes(catalog, sampleSize, srtType)
 
 
 # Funciones de consulta sobre el catálogo

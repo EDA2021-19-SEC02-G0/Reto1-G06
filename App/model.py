@@ -28,7 +28,7 @@
 from os import stat_result
 import config as cf
 from DISClib.ADT import list as lt
-from DISClib.Algorithms.Sorting import shellsort as sa
+import time
 assert cf
 
 """
@@ -130,7 +130,7 @@ def addVidCountry(catalog, countryName, video):
     else:
         country = newCountry(countryName)
         lt.addLast(countries, country)
-    lt.addLast(country["videos"], video)
+    #lt.addLast(country["videos"], video)
 
 
 def addVidTag(catalog, tagName, video):
@@ -144,7 +144,7 @@ def addVidTag(catalog, tagName, video):
     else:
         tag = newTag(tagName)
         lt.addLast(tags, tag)
-    lt.addLast(tag["videos"], video)
+    #lt.addLast(tag["videos"], video)
 
 
 def addVidCat(catalog, catId, video):
@@ -155,7 +155,7 @@ def addVidCat(catalog, catId, video):
     poscat = lt.isPresent(categories, catId)
     if poscat > 0:
         cat = lt.getElement(categories, poscat)
-        lt.addLast(cat["videos"], video)
+        #lt.addLast(cat["videos"], video)
     else:
         raise Exception("Categories have not been loaded " + 
         "or video category_id not present in category-id.csv")
@@ -170,7 +170,7 @@ def newCategory(catId, catName):
     categoría
     """
     category = {"id": int(catId), "name": catName, "videos": None}
-    category["videos"] = lt.newList("ARRAY_LIST")
+    #category["videos"] = lt.newList("ARRAY_LIST")
 
     return category
 
@@ -181,7 +181,7 @@ def newCountry(countryName):
     videos de un país
     """
     country = {"name": countryName, "videos": None}
-    country["videos"] = lt.newList("ARRAY_LIST")
+    #country["videos"] = lt.newList("ARRAY_LIST")
     
     return country
 
@@ -192,7 +192,7 @@ def newTag(tagName):
     de un tag
     """
     tag = {"name": tagName, "videos": None}
-    tag["videos"] = lt.newList("ARRAY_LIST")
+    #tag["videos"] = lt.newList("ARRAY_LIST")
 
     return tag
 
@@ -267,6 +267,7 @@ def comparecats(catId, cat):
     elif int(catId) < int(cat["id"]):
         return -1
     return 0
+    
 
 def cmpVideosByLikes(video1, video2):
     """
@@ -290,10 +291,40 @@ def compareviews(video1, video2):
 
 
 # Funciones de ordenamiento
-"""
-def sortBooksByLikes(catalog):
-    sa.sort(catalog['video'], comparelikes)
-def sortBooksByViews(catalog):
-    sa.sort(catalog['video'], compareviews)
-"""
 
+def srtVidsByLikes(catalog, sampleSize, srtType):
+    """
+    Ordena los videos del catálogo por likes. La acendencia o
+    decendencia del orden depende de la función de comparación
+    cmpVideosByLikes().
+
+    Args:
+        Catalog -- Catalogo con toda la información de videos
+        sampleSize: int -- Número de elementos de la muestra
+        srtType: int -- Tipo de algoritmo de ordenamiento:
+            1. para selectionsort
+            2. insertionsort
+            3. shellsort
+    
+    Returns:
+        Tad Lista con los videos ordenados.
+    """
+    if srtType == 1:
+        from DISClib.Algorithms.Sorting import selectionsort as sa
+    elif srtType == 2:
+        from DISClib.Algorithms.Sorting import insertionsort as sa
+    elif srtType == 3:
+        from DISClib.Algorithms.Sorting import shellsort as sa
+    else:
+        raise Exception("Invalid sort type in model.srtVidsByLikes")
+
+    if sampleSize > catalog["videos"]["size"]:
+        raise Exception("Invalid sample size. Sample size bigger than video list size. " + 
+        "In model.srtVidsByLikes()")
+    
+    sampleList = lt.subList(catalog["videos"], 0, sampleSize)
+    startTime = time.process_time()
+    sortedList = sa.sort(sampleList, cmpVideosByLikes)
+    stopTime = time.process_time()
+    elapsedTime = (stopTime - startTime)
+    return sortedList, elapsedTime
