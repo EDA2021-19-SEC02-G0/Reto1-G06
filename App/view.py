@@ -137,10 +137,10 @@ while True:
         country = input("Buscar en país: ")
         category = input("Buscar en categoría: ")
         #Tamaño de la muestra
-        sampleSize = int(input("Tamaño de la muestra (entre 1 y", catalog["videos"]["size"], "): "))
+        sampleSize = int(input("Tamaño de la muestra (entre 1 y " + str(catalog["videos"]["size"]) + "): "))
         while (sampleSize > catalog["videos"]["size"]) or (sampleSize < 1):
             print("Tamaño de la muestra inválido, intente nuevamente")
-            sampleSize = int(input("Tamaño de la muestra (entre 1 y", catalog["videos"]["size"] + "): "))
+            sampleSize = int(input("Tamaño de la muestra (entre 1 y " + str(catalog["videos"]["size"]) + "): "))
         
         #Tipo de ordenamiento
         print("Seleccione el algoritmo de ordenamiento:")
