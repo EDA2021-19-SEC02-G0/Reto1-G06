@@ -91,22 +91,22 @@ def addVideo(catalog, video):
     #Se adiciona el video a la lista de videos
     lt.addLast(catalog["videos"], video)
     #Se obtiene el país del video
-    country = video["country"]
+    #country = video["country"]
     #Se añade el pais a la lista de paises (incluye asociación
     # país - video)
-    addVidCountry(catalog, country, video)
+    #addVidCountry(catalog, country, video)
 
     #Se obtienen los tags del video
-    tags = getVidTags(video["tags"])
+    #tags = getVidTags(video["tags"])
     #Se añaden los tags a la lista de tags (incluye asociación
     # tag - video)
-    for tag in tags:
-        addVidTag(catalog, tag.strip("\" "), video)
+    #for tag in tags:
+        #addVidTag(catalog, tag.strip("\" "), video)
     
     #Se obtiene la categoría del video
-    category_id = video["category_id"]
+    #category_id = video["category_id"]
     #Se añade el video a la lista de videos en la categoría
-    addVidCat(catalog, category_id, video)
+    #addVidCat(catalog, category_id, video)
 
 
 def getVidTags(tagdStr: str) -> list:
