@@ -359,13 +359,10 @@ def subList(lst, pos, numelem):
         Exception
 
     """
-    if numelem<lst:
-        try:
-            return lt.subList(lst, pos, numelem)
-        except Exception as exp:
-            error.reraise(exp, 'List->subList: ')
-    else:
-        return ("Intente de nuevo")
+    try:
+        return lt.subList(lst, pos, numelem)
+    except Exception as exp:
+        error.reraise(exp, 'List->subList: ')
 
 
 def iterator(lst):
