@@ -326,5 +326,5 @@ def srtVidsByLikes(catalog, sampleSize, srtType):
     startTime = time.process_time()
     sortedList = sa.sort(sampleList, cmpVideosByLikes)
     stopTime = time.process_time()
-    elapsedTime = (stopTime - startTime)
+    elapsedTime = (stopTime - startTime) * 1000
     return sortedList, elapsedTime

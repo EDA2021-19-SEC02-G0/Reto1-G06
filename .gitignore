@@ -143,3 +143,8 @@ dmypy.json
 !Data/videos-small.csv
 
 .vim
+
+#Lab4
+App/results.csv
+App/test.py
+lab4/

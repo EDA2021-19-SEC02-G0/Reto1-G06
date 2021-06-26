@@ -154,7 +154,7 @@ while True:
         srtType = int(input("> ")[0])
         orderedSample = controller.srtVidsByLikes(catalog,
         sampleSize, srtType)
-        print("Tiempo de ejecución: (s)", orderedSample[1])
+        print("Tiempo de ejecución: (ms)", orderedSample[1])
         #TODO Output result
     
     elif int(inputs[0]) == 3:
