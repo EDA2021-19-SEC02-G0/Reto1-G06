@@ -305,6 +305,8 @@ def srtVidsByLikes(catalog, sampleSize, srtType):
             1. para selectionsort
             2. insertionsort
             3. shellsort
+            4. quicksort
+            5. mergesort
     
     Returns:
         Tad Lista con los videos ordenados.
@@ -315,6 +317,10 @@ def srtVidsByLikes(catalog, sampleSize, srtType):
         from DISClib.Algorithms.Sorting import insertionsort as sa
     elif srtType == 3:
         from DISClib.Algorithms.Sorting import shellsort as sa
+    elif srtType == 4:
+        from DISClib.Algorithms.Sorting import quicksort as sa
+    elif srtType == 5:
+        from DISClib.Algorithms.Sorting import mergesort as sa
     else:
         raise Exception("Invalid sort type in model.srtVidsByLikes")
 

@@ -26,8 +26,6 @@ import controller
 from DISClib.ADT import list as lt
 assert cf
 from platform import system
-if system() == "Windows":
-    from winsound import Beep as Bp
 
 
 """
@@ -36,11 +34,6 @@ Presenta el menu de opciones y por cada seleccion
 se hace la solicitud al controlador para ejecutar la
 operación solicitada
 """
-
-def Beep(frec, time):
-    if system == "Windows":
-        Bp(frec, time)
-
 
 def printMenu():
     print("Bienvenido")
@@ -110,7 +103,6 @@ while True:
         print("Cargando información de los archivos ....")
         catalog = initCatalog(type)
         loadData(catalog)
-        Beep(1000, 2000)
         print('Videos cargados: ' + str(lt.size(catalog['videos'])) + "\n")
         #Información del primer video cargado
         firstVid = lt.getElement(catalog["videos"], 1)
@@ -151,6 +143,8 @@ while True:
         print("1- Selection Sort")
         print("2- Insertion Sort")
         print("3- Shell Sort")
+        print("4- Quick Sort")
+        print("5- Merge Sort")
         srtType = int(input("> ")[0])
         orderedSample = controller.srtVidsByLikes(catalog,
         sampleSize, srtType)
