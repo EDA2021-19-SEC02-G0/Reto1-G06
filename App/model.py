@@ -156,7 +156,7 @@ def trendingVidCat(catalog, catPos):
     if lt.isEmpty(hiPerVids):
         return False
     #Ordena los hiPerVids
-    sa.sort(hiPerVids, cmpVideosByTrendDays)
+    srtVidsByTrendDays(hiPerVids)
     #Retorna el video que más días ha sido trend
     return lt.firstElement(hiPerVids)
 
@@ -274,3 +274,18 @@ def srtVidsByLikes(catalog, sampleSize, srtType):
     stopTime = time.process_time()
     elapsedTime = (stopTime - startTime) * 1000
     return sortedList, elapsedTime
+
+
+def srtVidsByTrendDays(lst):
+    """
+    Ordena los videos por días de trend. Retorna la lista ordenada
+    La acendencia o decendencia del ordenamiento depende de la
+    función cmpVideosByTrendDays().
+    ADVERTENCIA: los elementos video1 y video2 NO son elementos video del
+    catalogo de videos deben tener una llave "day_count": int.
+    Ver función trendingVidCat()
+
+    Args:
+        lst -- lista con elementos video que tienen la llave day_count
+    """
+    return sa.sort(lst, cmpVideosByTrendDays)
