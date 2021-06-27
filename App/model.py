@@ -127,8 +127,7 @@ def trendingVidCat(catalog, catPos):
     #Recorrer todos los videos del catalogo para ver encontrar
     #los videos en la categoría especificada y con persepción
     #sumamente positiva
-    for pos in range(1, catalog["videos"]["size"]):
-        video = lt.getElement(catalog["videos"], pos)
+    for video in lt.iterator(catalog["videos"]):
         #Evitar división por 0
         if int(video["dislikes"]) == 0:
             likeDislikeRatio == 30
@@ -151,7 +150,6 @@ def trendingVidCat(catalog, catPos):
                     "day_count": 1
                     }
                 lt.addLast(hiPerVids, hiPerVid)
-    
     #Revisa si hay videos que cumplen con la condición
     if lt.isEmpty(hiPerVids):
         return False

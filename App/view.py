@@ -154,7 +154,7 @@ while True:
                 [4,30],
                 [cat["id"], cat["name"]]
             ])
-        print("\nENTER para continuar")
+        input("\nENTER para continuar")
 
     elif int(inputs[0]) == 2:
         #REQ1
@@ -213,19 +213,23 @@ while True:
                 print("Categoría no encontrada. Intente nuevamente.")
         print("Cargando. Esta operación puede tardar")
         video = controller.trendingVidCat(catalog, catPos)
-        print("\nEl video de la categoría", catName, "con persepción sumamente positiva es\n")
-        print("Titulo:", video["Title"])
-        print("Canal:", video["channel_title"])
-        print("Id categoría", video["category_id"])
-        print("Likes/dislikes", round(video["ratio_likes_dislikes"], 2))
-        print("Días en trend", video["day_count"], "\n")
-        input("ENTER para continuar")
+        if video == False:
+            print("Nungún video cumple con los parámetros de busqueda")
+        else:
+            print("\nEl video de la categoría", catName, "con persepción sumamente positiva es\n")
+            print("Titulo:", video["title"])
+            print("Canal:", video["channel_title"])
+            print("Id categoría", video["category_id"])
+            print("Likes/dislikes", round(video["ratio_likes_dislikes"], 2))
+            print("Días en trend", video["day_count"], "\n")
+            input("ENTER para continuar")
 
     elif int(inputs[0]) == 5:
-        country = input("Buscar en país: ")
-        number = input("Número de videos a listar: ")
-        tag = input("Etiqueta (tag) a buscar: ")
-        videos = controller.mostCommentedVid(country, number, tag)
+        #REQ4
+        countryName = input("Buscar en país: ")
+        topN = input("Número de videos a listar: ")
+        tagName = input("Etiqueta (tag) a buscar: ")
+        videos = controller.mostCommentedVid(catalog, country, tagName, topN)
         print(videos)
 
     else:
