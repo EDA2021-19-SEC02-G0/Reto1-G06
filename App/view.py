@@ -157,6 +157,7 @@ while True:
         print(videos)
 
     elif int(inputs[0]) == 4:
+        #REQ3
         catPos = 0
         #User category input
         while catPos == 0:
@@ -166,29 +167,13 @@ while True:
                 print("Categoría no encontrada. Intente nuevamente.")
         print("Cargando. Esta operación puede tardar")
         video = controller.trendingVidCat(catalog, catPos)
-        print("El video de la categoría", catName, "con persepción sumamente positiva es\n")
-        printRow([
-            [50, 30, 15, 15, 13],
-            [
-                "Titulo",
-                "Canal",
-                "Id categoría",
-                "Likes/dislikes",
-                "Días en trend"
-            ]
-            ])
-        printRow([
-            [50, 30, 15, 15, 13],
-            [
-                video["title"],
-                video["channel_title"],
-                video["category_id"],
-                round(video["ratio_likes_dislikes"], 2),
-                video["day_count"]
-            ]
-            ])
-        print("")
-
+        print("\nEl video de la categoría", catName, "con persepción sumamente positiva es\n")
+        print("Titulo:", video["Title"])
+        print("Canal:", video["channel_title"])
+        print("Id categoría", video["category_id"])
+        print("Likes/dislikes", round(video["ratio_likes_dislikes"], 2))
+        print("Días en trend", video["day_count"], "\n")
+        input("ENTER para continuar")
 
     elif int(inputs[0]) == 5:
         country = input("Buscar en país: ")
