@@ -306,17 +306,6 @@ def cmpVideosByComments(video1, video2) -> bool:
     """
     return int(video1["comment_count"]) > int(video2["comment_count"])
 
-
-def tagInTags(tagName: str, video) -> bool:
-    """
-    Revisa si un tagName (str) está en la lista de tags de un video.
-
-    Args:
-        tagName: str -- nombre del tag a buscar
-        video: 
-    """
-    pass #TODO
-
 # Funciones de ordenamiento
 
 def srtVidsByLikes(lst):

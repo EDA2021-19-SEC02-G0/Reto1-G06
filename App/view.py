@@ -219,16 +219,16 @@ while True:
             print("\nEl video de la categoría", catName, "con persepción sumamente positiva es\n")
             print("Titulo:", video["title"])
             print("Canal:", video["channel_title"])
-            print("Id categoría", video["category_id"])
-            print("Likes/dislikes", round(video["ratio_likes_dislikes"], 2))
-            print("Días en trend", video["day_count"], "\n")
+            print("Id categoría:", video["category_id"])
+            print("Likes/dislikes:", round(video["ratio_likes_dislikes"], 2))
+            print("Días en trend:", video["day_count"], "\n")
             input("ENTER para continuar")
 
     elif int(inputs[0]) == 5:
         #REQ4
         countryName = input("Buscar en país: ")
-        topN = topNInput()
         tagName = input("Etiqueta (tag) a buscar: ")
+        topN = topNInput()
         print("Cargando. Esta operación puede targar.")
         videos = controller.mostCommentedVids(catalog, countryName, tagName, topN)
         if videos["size"] == 0:
@@ -264,7 +264,7 @@ while True:
                     video["comment_count"]
                 ]
             ])
-            print("\nTAGS:", video["tags"],"\n")
+            print("\nTAGS:", video["tags"], "\n")
         input("\nENTER para continuar")
     else:
         sys.exit(0)
