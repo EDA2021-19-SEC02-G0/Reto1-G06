@@ -227,11 +227,45 @@ while True:
     elif int(inputs[0]) == 5:
         #REQ4
         countryName = input("Buscar en país: ")
-        topN = input("Número de videos a listar: ")
+        topN = topNInput()
         tagName = input("Etiqueta (tag) a buscar: ")
-        videos = controller.mostCommentedVid(catalog, country, tagName, topN)
-        print(videos)
-
+        print("Cargando. Esta operación puede targar.")
+        videos = controller.mostCommentedVids(catalog, countryName, tagName, topN)
+        if videos["size"] == 0:
+            print("No se ecnontró ningún video que cumpla con las condiciones de búsqueda")
+        elif videos["size"] < topN:
+            print("Solo", videos["size"], "videos cumplen las condiciones de búsqueda")
+            print("resultados a continuación:")
+        else:
+            print("Resulatados a continuación:")
+        for video in lt.iterator(videos):
+            print("")
+            printRow([
+                [40, 20, 20, 10, 10, 10, 11],
+                [
+                    "Title",
+                    "Channel title",
+                    "Publish time",
+                    "Views",
+                    "likes",
+                    "dislikes",
+                    "Comment cnt"
+                ]
+            ])
+            printRow([
+                [40, 20, 20, 10, 10, 10, 11],
+                [
+                    video["title"],
+                    video["channel_title"],
+                    video["publish_time"],
+                    video["views"],
+                    video["likes"],
+                    video["dislikes"],
+                    video["comment_count"]
+                ]
+            ])
+            print("\nTAGS:", video["tags"],"\n")
+        input("\nENTER para continuar")
     else:
         sys.exit(0)
 

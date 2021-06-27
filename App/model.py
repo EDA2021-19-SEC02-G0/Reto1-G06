@@ -32,6 +32,7 @@ import time
 assert cf
 from DISClib.Algorithms.Sorting import mergesort as sa
 import sys
+import re #Regular expression
 
 """
 Se define la estructura de un catálogo de videos. El catálogo tendrá dos listas, una para los videos, otra para las categorias de
@@ -177,7 +178,7 @@ def topVidsCatCountry(catalog, catPos, countryName, topN):
     catId = lt.getElement(catalog["categories"], catPos)["id"]
     #Iteración por todos los videos
     for video in lt.iterator(catalog["videos"]):
-        if (countryName in video["country"]) and (video["category_id"] == catId):
+        if (countryName.lower() in video["country"].lower()) and (video["category_id"] == catId):
             lt.addLast(catCountryVids, video)
     #Ordenamiento de videos
     srtVidsByLikes(catCountryVids)
@@ -185,7 +186,44 @@ def topVidsCatCountry(catalog, catPos, countryName, topN):
         topN = catCountryVids["size"]
         
     return lt.subList(catCountryVids, 1, topN)
-            
+
+
+def mostCommentedVid(catalog, countryName: str, tagName: str, topN: int):
+    """
+    Devuelve los n videos DIFERENTES de un país específico y
+    que tengan un tag específico.
+
+    Args:
+        catalog -- Catálogo de videos
+        countryName: str -- nombre de el país
+        tagName: str -- nombre del tag
+        topN: int -- número de videos a listar en el top
+
+    Retorna:
+        Tad lista con el top n videos ordenados de más a menos
+        comentarios
+    """
+    tagCountryVids = lt.newList("ARRAY_LIST")
+    difTagCountryVids = lt.newList("ARRAY_LIST", cmpVideos)
+    #Iteración por todos los videos para encontrar los que cumplen
+    #el filtro
+    #RegEx para tags
+    tagRegEx = "(?i)\"" + tagName + "\""
+    for video in lt.iterator(catalog["videos"]):
+        if (countryName.lower() in video["country"].lower() and
+        not(re.search(tagRegEx, video["tags"]) is None)):
+            lt.addLast(tagCountryVids, video)
+    #Ordena los videos por número de comentarios
+    srtVidsByComments(tagCountryVids)
+    #Selecciona los n videos diferentes
+    for video in lt.iterator(tagCountryVids):
+        if difTagCountryVids["size"] == topN:
+            break
+        if lt.isPresent(difTagCountryVids, video["title"]) == 0:
+            lt.addLast(difTagCountryVids, video)
+    
+    return difTagCountryVids
+
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 
@@ -223,7 +261,7 @@ def cmpVideos(videoTitle, video) -> int:
     return -1
 
 
-def cmpVideosByLikes(video1, video2):
+def cmpVideosByLikes(video1, video2) -> bool:
     """
     Devuelve verdadero (True) si los likes de video1 son mayores que los del video2
     Args:
@@ -233,7 +271,7 @@ def cmpVideosByLikes(video1, video2):
     return int(video1["likes"]) > int(video2["likes"])
 
 
-def cmpVideosByTrendDays(video1, video2):
+def cmpVideosByTrendDays(video1, video2) -> bool:
     """
     Devuelve verdadero (True) si los días de tendencia del video 1 son MAYORES que los del video 2
     CUIDADO: los elementos video1 y video2 no son elementos video del catalogo de videos
@@ -246,7 +284,7 @@ def cmpVideosByTrendDays(video1, video2):
     return int(video1["day_count"]) > int(video2["day_count"])
 
 
-def cmpVideosByViews(video1, video2):
+def cmpVideosByViews(video1, video2) -> bool:
     """
     Devielve verdadero si las vistas del video 1 son mayores a las vistas del video 2
 
@@ -256,6 +294,28 @@ def cmpVideosByViews(video1, video2):
     """
     return int(video1['views']) > int(video2['views'])
 
+
+def cmpVideosByComments(video1, video2) -> bool:
+    """
+    Devuleve verdadero (true) se el número de comentarios del video1 es MAYOR
+    al número de comentarios del video 2.
+
+    Args:
+        video1 -- información del video 1 que incluye llave comment_count
+        video2 -- información del video 2 que incluye llave comment_count
+    """
+    return int(video1["comment_count"]) > int(video2["comment_count"])
+
+
+def tagInTags(tagName: str, video) -> bool:
+    """
+    Revisa si un tagName (str) está en la lista de tags de un video.
+
+    Args:
+        tagName: str -- nombre del tag a buscar
+        video: 
+    """
+    pass #TODO
 
 # Funciones de ordenamiento
 
@@ -293,3 +353,16 @@ def srtVidsByTrendDays(lst):
         lst -- lista con elementos video que tienen la llave day_count
     """
     return sa.sort(lst, cmpVideosByTrendDays)
+
+
+def srtVidsByComments(lst):
+    """
+    Ordena los videos por número de comentarios. Retorna la lista ordenada.
+    La acendencia o decedencia del ordenamiento depende de la función
+    cmpVidsByComments(). Utiliza el algoritmo de ordenamiento importado
+    como "sa".
+
+    Args:
+        lst -- lista con elementos video que tienen la llave "comment_count"
+    """
+    return sa.sort(lst, cmpVideosByComments)

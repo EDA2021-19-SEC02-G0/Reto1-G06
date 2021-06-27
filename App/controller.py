@@ -93,3 +93,10 @@ def topVidsCatCountry(catalog, catPos, countryName, topN):
     """
     return model.topVidsCatCountry(catalog, catPos, countryName,
     topN)
+
+
+def mostCommentedVids(catalog, country, tagName, topN):
+    """
+    Llama a la función model.mostCommentedVids()
+    """
+    return model.mostCommentedVid(catalog, country, tagName, topN)
