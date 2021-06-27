@@ -160,6 +160,35 @@ def trendingVidCat(catalog, catPos):
     #Retorna el video que más días ha sido trend
     return lt.firstElement(hiPerVids)
 
+
+def topVidsCatCountry(catalog, catPos, countryName, topN):
+    """
+    Retorna el top N videos de una categoría y un país con más likes
+
+    Args:
+        catalog -- Catálogo de videos
+        catPos: int -- Posición de la categoría en catalog["categories"]
+        countryName: str -- nombre del país en el cual buscar
+        topN: int -- Númerod de videos a listar en el top
+
+    Returns:
+        Tad lista con el top de videos ordenados de más a menos likes
+    """
+    catCountryVids = lt.newList("ARRAY_LIST")
+    #Get Category Id
+    catId = lt.getElement(catalog["categories"], catPos)["id"]
+    #Iteración por todos los videos
+    for video in lt.iterator(catalog["videos"]):
+        if (countryName in video["country"]) and (video["category_id"] == catId):
+            lt.addLast(catCountryVids, video)
+    #Ordenamiento de videos
+    srtVidsByLikes(catCountryVids)
+    if topN > catCountryVids["size"]:
+        topN = catCountryVids["size"]
+        
+    return lt.subList(catCountryVids, 1, topN)
+            
+
 # Funciones utilizadas para comparar elementos dentro de una lista
 
 def cmpCats(catName: str, cat) -> int:
@@ -194,7 +223,7 @@ def cmpVideos(videoTitle, video) -> int:
     if (videoTitle == video["title"]):
         return 0
     return -1
-    
+
 
 def cmpVideosByLikes(video1, video2):
     """
@@ -232,47 +261,24 @@ def cmpVideosByViews(video1, video2):
 
 # Funciones de ordenamiento
 
-def srtVidsByLikes(catalog, sampleSize, srtType):
+def srtVidsByLikes(lst):
     """
     Ordena los videos del catálogo por likes. La acendencia o
     decendencia del orden depende de la función de comparación
-    cmpVideosByLikes().
+    cmpVideosByLikes(). Utiliza la función de ordenamiento importada
+    como "sa"
 
     Args:
-        Catalog -- Catalogo con toda la información de videos
-        sampleSize: int -- Número de elementos de la muestra
-        srtType: int -- Tipo de algoritmo de ordenamiento:
-            1. para selectionsort
-            2. insertionsort
-            3. shellsort
-            4. quicksort
-            5. mergesort
+        lst -- Lista con elementos video a ordenar
     
     Returns:
         Tad Lista con los videos ordenados.
     """
-    if srtType == 1:
-        from DISClib.Algorithms.Sorting import selectionsort as sa
-    elif srtType == 2:
-        from DISClib.Algorithms.Sorting import insertionsort as sa
-    elif srtType == 3:
-        from DISClib.Algorithms.Sorting import shellsort as sa
-    elif srtType == 4:
-        from DISClib.Algorithms.Sorting import quicksort as sa
-    elif srtType == 5:
-        from DISClib.Algorithms.Sorting import mergesort as sa
-    else:
-        raise Exception("Invalid sort type in model.srtVidsByLikes")
-
-    if sampleSize > catalog["videos"]["size"]:
-        raise Exception("Invalid sample size. Sample size bigger than video list size. " + 
-        "In model.srtVidsByLikes()")
-    
-    sampleList = lt.subList(catalog["videos"], 0, sampleSize)
     startTime = time.process_time()
-    sortedList = sa.sort(sampleList, cmpVideosByLikes)
+    sortedList = sa.sort(lst, cmpVideosByLikes)
     stopTime = time.process_time()
     elapsedTime = (stopTime - startTime) * 1000
+
     return sortedList, elapsedTime
 
 
