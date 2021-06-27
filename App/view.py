@@ -87,40 +87,6 @@ def loadData(catalog):
 
 catalog = None
 
-
-def categotyInput(catalog) -> int:
-    """
-    Le pide al usuario que ingrese una categoría (por nombre)
-    Devuelve la posición de la categoría en la lista de 
-    categorías (int)
-
-    Args:
-        catalog -- catálofo de videos
-    """
-    catPos = 0
-    #User category input
-    while catPos == 0:
-        catName = input("Buscar en categoría: ").strip()
-        catPos = controller.catPos(catalog, catName)
-        if catPos == 0:
-            print("Categoría no encontrada. Intente nuevamente.")
-    
-    return catPos
-
-
-def topNInput() -> int:
-    """
-    Le pide al usuario que ingrese un int, que corresponde al
-    top de videos que quiere que se listen
-    """
-    topN = 0
-    while topN < 1:
-        topN = int(input("Número de video a listar: "))
-        if topN < 1:
-            print("Entrada inválida, intente nuevamente.")
-    
-    return topN
-
 """
 Menu principal
 """
@@ -128,8 +94,14 @@ while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
-        #Inicializa el catálogo en modo array_list
-        catalog = initCatalog(1)
+        #Le permite al usuario seleccionar la estructura de datos
+        print("Seleccione:")
+        print("1- Cargar los datos en ARRAY LIST")
+        print("2- Cargar los datos en SINGLE LIKED LIST")
+        type = int(input("> ")[0])
+        #Carga los datos
+        print("Cargando información de los archivos ....")
+        catalog = initCatalog(type)
         loadData(catalog)
         print('Videos cargados: ' + str(lt.size(catalog['videos'])) + "\n")
         #Información del primer video cargado
@@ -154,48 +126,30 @@ while True:
                 [4,30],
                 [cat["id"], cat["name"]]
             ])
-        print("\nENTER para continuar")
+        print("")
 
     elif int(inputs[0]) == 2:
-        #REQ1
-        #User category input
-        catPos = categotyInput(catalog)
-        #User country input
-        countryName = input("Buscar en país: ").strip()
-        #User topN input
-        topN = topNInput()
-        #Exec
-        topVideos = controller.topVidsCatCountry(catalog, catPos, countryName,
-        topN)
-        #Output results
-        printRow([
-            [15, 40, 20, 25, 10, 10, 10],
-            [
-                "Trending date",
-                "Title",
-                "Channel title",
-                "Publish time",
-                "Views",
-                "likes",
-                "dislikes"
-            ]
-        ])
-        for video in lt.iterator(topVideos):
-            printRow([
-            [15, 40, 20, 25, 10, 10, 10],
-            [
-                video["trending_date"],
-                video["title"],
-                video["channel_title"],
-                video["publish_time"],
-                video["views"],
-                video["likes"],
-                video["dislikes"]
-            ]
-        ])
-        if topVideos["size"] < topN:
-            print("Solo", topVideos["size"], "cumplen las condiciones de búsqueda")
-        input("\nENTRE para continuar")
+        number = int(input("Buscar los TOP ?: "))
+        country = input("Buscar en país: ")
+        category = input("Buscar en categoría: ")
+        #Tamaño de la muestra
+        sampleSize = int(input("Tamaño de la muestra (entre 1 y " + str(catalog["videos"]["size"]) + "): "))
+        while (sampleSize > catalog["videos"]["size"]) or (sampleSize < 1):
+            print("Tamaño de la muestra inválido, intente nuevamente")
+            sampleSize = int(input("Tamaño de la muestra (entre 1 y " + str(catalog["videos"]["size"]) + "): "))
+        
+        #Tipo de ordenamiento
+        print("Seleccione el algoritmo de ordenamiento:")
+        print("1- Selection Sort")
+        print("2- Insertion Sort")
+        print("3- Shell Sort")
+        print("4- Quick Sort")
+        print("5- Merge Sort")
+        srtType = int(input("> ")[0])
+        orderedSample = controller.srtVidsByLikes(catalog,
+        sampleSize, srtType)
+        print("Tiempo de ejecución: (ms)", orderedSample[1])
+        #TODO Output result
     
     elif int(inputs[0]) == 3:
         country = input("Buscar en país: ")

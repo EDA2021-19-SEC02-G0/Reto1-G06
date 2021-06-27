@@ -64,11 +64,11 @@ def loadVideos(catalog):
         model.addVideo(catalog, video)
 
 # Funciones de ordenamiento
-def srtVidsByLikes(catalog, srtType):
+def srtVidsByLikes(catalog, sampleSize, srtType):
     """
     Llama a la función sortVidsByLikes del model.py
     """
-    return model.srtVidsByLikes(catalog, srtType)
+    return model.srtVidsByLikes(catalog, sampleSize, srtType)
 
 
 # Funciones de consulta sobre el catálogo
@@ -85,11 +85,3 @@ def trendingVidCat(catalog, catPos):
     Llama a la función model.trendingVidCat()
     """
     return model.trendingVidCat(catalog, catPos)
-
-
-def topVidsCatCountry(catalog, catPos, countryName, topN):
-    """
-    Llama a la función topVidsCatCountry del model.py
-    """
-    return model.topVidsCatCountry(catalog, catPos, countryName,
-    topN)
