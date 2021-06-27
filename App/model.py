@@ -30,6 +30,8 @@ import config as cf
 from DISClib.ADT import list as lt
 import time
 assert cf
+from DISClib.Algorithms.Sorting import mergesort as sa
+import sys
 
 """
 Se define la estructura de un catálogo de videos. El catálogo tendrá dos listas, una para los videos, otra para las categorias de
@@ -88,6 +90,76 @@ def addVideo(catalog, video):
 
 # Funciones de consulta
 
+def catPos(catalog, catName: str) -> int:
+    """
+    Revisa si una categoría está presente en la lista de categorías del catálogo.
+    Devuelve la posición en la que se encuentra.
+
+    Args:
+        catalog: Catalogo de videos.
+        catName: str -- nombre de la categoría.
+    
+    Returns:
+        Si encuentra la categoría devuelve su posición (int). Si no la encuentra
+        devuelve 0 (int).
+    """
+    return lt.isPresent(catalog["categories"], catName)
+
+
+def trendingVidCat(catalog, catPos):
+    """
+    Retorna el video de una categoría específica, cuya persepción es sumamente positiva
+    (ratio likes/dislikes > 20) que más días ha sido trending.
+
+    Args:
+        catalog -- catalogo de videos
+        catPos -- posición de la categoría en la lista de categorías
+
+    Returns:
+        Elemento video
+        False (bool) -- Si no se encontró ningún video que cumpla con las condiciones
+    """
+    if catPos <= 0:
+        raise Exception("Invalid catPos in model.trendingVidCat()")
+    
+    categoryID = lt.getElement(catalog["categories"], catPos)["id"]
+    hiPerVids = lt.newList("ARRAY_LIST", cmpVideos) #hiPerVids hace referencia a hi perception videos
+    #Recorrer todos los videos del catalogo para ver encontrar
+    #los videos en la categoría especificada y con persepción
+    #sumamente positiva
+    for pos in range(1, catalog["videos"]["size"]):
+        video = lt.getElement(catalog["videos"], pos)
+        #Evitar división por 0
+        if int(video["dislikes"]) == 0:
+            likeDislikeRatio == 30
+        else:
+            likeDislikeRatio = int(video["likes"]) / int(video["dislikes"])
+        #Revisar si el video cumple los criterios
+        if (video["category_id"] == categoryID) and likeDislikeRatio > 20:
+            #Revisar si el video ya existe en trendVids
+            hiPerVidPos = lt.isPresent(hiPerVids, video["title"])
+            if hiPerVidPos > 0:
+                hiPerVid = lt.getElement(hiPerVids, hiPerVidPos)
+                #Añade 1 a la cuenta de días que ha aparecido el video
+                hiPerVid["day_count"] += 1
+            else:
+                hiPerVid = {
+                    "title": video["title"],
+                    "channel_title": video["channel_title"],
+                    "category_id": video["category_id"],
+                    "ratio_likes_dislikes": likeDislikeRatio,
+                    "day_count": 1
+                    }
+                lt.addLast(hiPerVids, hiPerVid)
+    
+    #Revisa si hay videos que cumplen con la condición
+    if lt.isEmpty(hiPerVids):
+        return False
+    #Ordena los hiPerVids
+    sa.sort(hiPerVids, cmpVideosByTrendDays)
+    #Retorna el video que más días ha sido trend
+    return lt.firstElement(hiPerVids)
+
 # Funciones utilizadas para comparar elementos dentro de una lista
 
 def cmpCats(catName: str, cat) -> int:
@@ -102,36 +174,49 @@ def cmpCats(catName: str, cat) -> int:
         0 (int): si el str es igual al nombre de la categoría
         -1 (int): si son diferentes
     """
-    if (catName.lower() == cat["name"].lower()):
+    if (catName.lower() in cat["name"].lower()):
         return 0
-    return 1
+    return -1
 
 
-def cmpVideos(videoName: str, video) -> int:
+def cmpVideos(videoTitle, video) -> int:
     """
     Compara un str con el nombre de un elemento video
 
     Args:
-        videoName: str -- str a comparar con el nombre del elemento category
-        video: elemento video
+        videoTitle: str a comparar
+        video: elemento video a comparar
     
     Returns:
-        0 (int): si el str es igual al nombre del video
+        0 (int): si el str es igual al id del elemento video
         -1 (int): si son diferentes  
     """
-    if (videoName.lower() == video["name"].lower()):
+    if (videoTitle == video["title"]):
         return 0
     return -1
     
 
 def cmpVideosByLikes(video1, video2):
     """
-    Devuelve verdadero (True) si los likes de video1 son menores que los del video2
+    Devuelve verdadero (True) si los likes de video1 son mayores que los del video2
     Args:
     video1: informacion del primer video que incluye su valor 'likes'
     video2: informacion del segundo video que incluye su valor 'likes'
     """
     return int(video1["likes"]) > int(video2["likes"])
+
+
+def cmpVideosByTrendDays(video1, video2):
+    """
+    Devuelve verdadero (True) si los días de tendencia del video 1 son MAYORES que los del video 2
+    CUIDADO: los elementos video1 y video2 no son elementos video del catalogo de videos
+    deben tener una llave "day_count": int. Ver función trendingVidCat()
+
+    Args:
+        video1: información del video 1 que incluye llave day_count
+        video2: información del video 2 que incluye llave day_count
+    """
+    return int(video1["day_count"]) > int(video2["day_count"])
 
 
 def cmpVideosByViews(video1, video2):

@@ -39,8 +39,8 @@ def printMenu():
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
     print("2- Top N videos con más likes tendencia en país - categoría") #REQ 1
-    print("3- Vídeo que más días ha sido trending en un país")
-    print("4- Video que más días ha sido trending en una categoría")
+    print("3- Vídeo que más días ha sido trending en un país") #REQ 2
+    print("4- Video que más días ha sido trending en una categoría") #REQ 3
     print("5- N videos con más comentarios en país")
     print("0- Salir")
 
@@ -157,9 +157,38 @@ while True:
         print(videos)
 
     elif int(inputs[0]) == 4:
-        category = input("Buscar en categoría: ")
-        videos = controller.trendingVidCat(category)
-        print(videos)
+        catPos = 0
+        #User category input
+        while catPos == 0:
+            catName = input("Buscar en categoría: ").strip()
+            catPos = controller.catPos(catalog, catName)
+            if catPos == 0:
+                print("Categoría no encontrada. Intente nuevamente.")
+        print("Cargando. Esta operación puede tardar")
+        video = controller.trendingVidCat(catalog, catPos)
+        print("El video de la categoría", catName, "con persepción sumamente positiva es\n")
+        printRow([
+            [50, 30, 15, 15, 13],
+            [
+                "Titulo",
+                "Canal",
+                "Id categoría",
+                "Likes/dislikes",
+                "Días en trend"
+            ]
+            ])
+        printRow([
+            [50, 30, 15, 15, 13],
+            [
+                video["title"],
+                video["channel_title"],
+                video["category_id"],
+                round(video["ratio_likes_dislikes"], 2),
+                video["day_count"]
+            ]
+            ])
+        print("")
+
 
     elif int(inputs[0]) == 5:
         country = input("Buscar en país: ")
