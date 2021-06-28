@@ -25,6 +25,7 @@
  """
 
 
+from DISClib.DataStructures.arraylist import newList
 from os import stat_result
 import config as cf
 from DISClib.ADT import list as lt
@@ -66,7 +67,7 @@ def newCatalog(type):
 
     catalog["videos"] = lt.newList(lstType)
     catalog["categories"] = lt.newList(lstType, cmpCats)
-
+    
     return catalog
 
 
@@ -285,7 +286,7 @@ def cmpVideosByTrendDays(video1, video2) -> bool:
 
 
 def cmpVideosByViews(video1, video2) -> bool:
-    """
+    """ 
     Devielve verdadero si las vistas del video 1 son mayores a las vistas del video 2
 
     Args:
@@ -355,3 +356,57 @@ def srtVidsByComments(lst):
         lst -- lista con elementos video que tienen la llave "comment_count"
     """
     return sa.sort(lst, cmpVideosByComments)
+
+def ratio_likes_dislikes(likes,dislikes):
+    
+    if float(dislikes)>0:
+        x=(float(float(likes))/(float(dislikes)))
+    else:
+        x=0
+    return x
+
+def filtrobyratio_likes_dislikes(catalog,country):
+  
+    ans={}
+    i=0
+    
+    while i < lt.size(catalog['videos']):
+        video=lt.getElement(catalog['videos'],i)
+        likes=video['likes']
+        dislikes=video['dislikes']
+        video_name=video['title']
+        channel=video['channel_title']
+        pais=video['country']
+        if video_name not in ans and ratio_likes_dislikes(likes,dislikes)>10 and pais==country:
+            newdict={}
+            newdict['ratio_likes_dislikes']=ratio_likes_dislikes(likes,dislikes)
+            newdict['channel_title']=channel
+            newdict['country']=pais
+            newdict['dias']=1
+            ans[video_name]=newdict
+        if video_name in ans and ratio_likes_dislikes(likes,dislikes)>10 and pais==country:
+            newdict=ans[video_name]
+            newdict['dias']+=1
+            newdict['ratio_likes_dislikes']=ratio_likes_dislikes(likes,dislikes)
+         
+        else:
+            return False
+            
+        i+=1
+    dias=0
+    title=0
+    channel_title=0
+    ratio=0
+
+    for x in ans.keys():
+        newdict=ans[x]
+        if newdict['dias']>dias and newdict['ratio_likes_dislikes']>ratio:
+            dias=newdict['dias']
+            title=x
+            channel_title=newdict['channel_title']
+            ratio=newdict['ratio_likes_dislikes']
+
+   
+    return title,channel_title,ratio,dias
+  
+
