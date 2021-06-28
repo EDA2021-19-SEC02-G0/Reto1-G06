@@ -100,3 +100,6 @@ def mostCommentedVids(catalog, country, tagName, topN):
     Llama a la función model.mostCommentedVids()
     """
     return model.mostCommentedVid(catalog, country, tagName, topN)
+
+def trendingVidCountry(catalog,country):
+    return model.filtrobyratio_likes_dislikes(catalog,country)
