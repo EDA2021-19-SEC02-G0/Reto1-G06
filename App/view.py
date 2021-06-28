@@ -138,7 +138,7 @@ while True:
         printRow([[30,20,15,15,10,10,10], ["Titulo", "Canal", "Trend Date", "País", "Vistas", "Likes", "Dislikes"]])
         printRow([
             [30,20,15,15,10,10,10],
-            [firstVid["title"][0:-1], firstVid["channel_title"], firstVid["trending_date"], firstVid["country"], 
+            [firstVid["title"], firstVid["channel_title"], firstVid["trending_date"], firstVid["country"], 
             firstVid["views"], firstVid["likes"], firstVid["dislikes"]]
         ])
         print("")
@@ -204,19 +204,14 @@ while True:
 
     elif int(inputs[0]) == 4:
         #REQ3
-        catPos = 0
         #User category input
-        while catPos == 0:
-            catName = input("Buscar en categoría: ").strip()
-            catPos = controller.catPos(catalog, catName)
-            if catPos == 0:
-                print("Categoría no encontrada. Intente nuevamente.")
+        catPos = categotyInput()
         print("Cargando. Esta operación puede tardar")
         video = controller.trendingVidCat(catalog, catPos)
         if video == False:
             print("Nungún video cumple con los parámetros de busqueda")
         else:
-            print("\nEl video de la categoría", catName, "con persepción sumamente positiva es\n")
+            print("\nEl video de la categoría ingresada con persepción sumamente positiva es\n")
             print("Titulo:", video["title"])
             print("Canal:", video["channel_title"])
             print("Id categoría:", video["category_id"])
