@@ -102,4 +102,4 @@ def mostCommentedVids(catalog, country, tagName, topN):
     return model.mostCommentedVid(catalog, country, tagName, topN)
 
 def trendingVidCountry(catalog,country):
-    return model.filtrobyratio_likes_dislikes(catalog,country)
+    return model.trendingVidCountry(catalog,country)

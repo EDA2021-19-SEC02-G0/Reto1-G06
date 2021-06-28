@@ -209,11 +209,11 @@ while True:
             print("Ningún video cumple con los parámetros de busqueda")
         else:
             print("\nEl video del pais", country, "con persepción sumamente positiva es\n")
-            print("Titulo:", video[0])
-            print("Canal:", video[1])
+            print("Titulo:", video["title"])
+            print("Canal:", video["channel_title"])
             print("Pais:", str(country))
-            print("Likes/dislikes:", round(video[2], 2))
-            print("Días en trend:", video[3], "\n")
+            print("Likes/dislikes:", round(video["ratio_likes_dislikes"], 2))
+            print("Días en trend:", video["day_count"], "\n")
             input("ENTER para continuar")
     elif int(inputs[0]) == 4:
         #REQ3

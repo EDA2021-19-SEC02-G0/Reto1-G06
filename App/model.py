@@ -365,7 +365,8 @@ def ratio_likes_dislikes(likes,dislikes):
         x=0
     return x
 
-def filtrobyratio_likes_dislikes(catalog,country):
+def trendingVidCountrys(catalog,country):
+    """""
   
     ans={}
     i=0
@@ -405,5 +406,40 @@ def filtrobyratio_likes_dislikes(catalog,country):
 
    
     return title,channel_title,ratio,dias
-  
-
+  """
+    i=0
+    video= lt.getElement(catalog["video"],i)
+    hiPerVids = lt.newList("ARRAY_LIST", cmpVideos) #hiPerVids hace referencia a hi perception videos
+    #Recorrer todos los videos del catalogo para ver encontrar
+    #los videos en la categoría especificada y con persepción
+    #sumamente positiva
+    for video in lt.iterator(catalog["videos"]):
+        #Evitar división por 0
+        if int(video["dislikes"]) == 0:
+            likeDislikeRatio == 30
+        else:
+            likeDislikeRatio = int(video["likes"]) / int(video["dislikes"])
+        #Revisar si el video cumple los criterios
+        if (video["country"] == country) and likeDislikeRatio > 10:
+            #Revisar si el video ya existe en trendVids
+            hiPerVidPos = lt.isPresent(hiPerVids, video["title"])
+            if hiPerVidPos > 0:
+                hiPerVid = lt.getElement(hiPerVids, hiPerVidPos)
+                #Añade 1 a la cuenta de días que ha aparecido el video
+                hiPerVid["day_count"] += 1
+            else:
+                hiPerVid = {
+                    "title": video["title"],
+                    "channel_title": video["channel_title"],
+                    "country": video["country"],
+                    "ratio_likes_dislikes": likeDislikeRatio,
+                    "day_count": 1
+                    }
+                lt.addLast(hiPerVids, hiPerVid)
+    #Revisa si hay videos que cumplen con la condición
+    if lt.isEmpty(hiPerVids):
+        return False
+    #Ordena los hiPerVids
+    srtVidsByTrendDays(hiPerVids)
+    #Retorna el video que más días ha sido trend
+    return lt.firstElement(hiPerVids)
