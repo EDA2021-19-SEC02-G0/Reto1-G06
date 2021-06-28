@@ -390,9 +390,6 @@ def filtrobyratio_likes_dislikes(catalog,country):
             newdict=ans[video_name]
             newdict['dias']+=1
             newdict['ratio_likes_dislikes']=ratio_likes_dislikes(likes,dislikes)
-         
-        else:
-            return False
             
         i+=1
     dias=0
