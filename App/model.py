@@ -131,8 +131,10 @@ def trendingVidCat(catalog, catPos):
     #sumamente positiva
     for video in lt.iterator(catalog["videos"]):
         #Evitar división por 0
-        if int(video["dislikes"]) == 0:
-            likeDislikeRatio == 30
+        if (int(video["dislikes"]) == 0) and (int(video["likes"]) == 0):
+            likeDislikeRatio = 0
+        elif int(video["dislikes"]) == 0:
+            likeDislikeRatio = 30
         else:
             likeDislikeRatio = int(video["likes"]) / int(video["dislikes"])
         #Revisar si el video cumple los criterios
