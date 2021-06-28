@@ -367,7 +367,7 @@ def ratio_likes_dislikes(likes,dislikes):
         x=0
     return x
 
-def trendingVidCountrys(catalog,country):
+def trendingVidCountry(catalog,country):
     """""
   
     ans={}
