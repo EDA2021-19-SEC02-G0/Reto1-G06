@@ -202,7 +202,7 @@ while True:
         
         
         print("Cargando. Esta operación puede tardar")
-        video= controller.trendingVidCountry(catalog,country)
+        video= controller.trendingVidCountry(catalog, country)
     
     
         if video == False:
@@ -218,13 +218,13 @@ while True:
     elif int(inputs[0]) == 4:
         #REQ3
         #User category input
-        catPos = categotyInput()
+        catPos = categotyInput(catalog)
         print("Cargando. Esta operación puede tardar")
         video = controller.trendingVidCat(catalog, catPos)
         if video == False:
             print("Nungún video cumple con los parámetros de busqueda")
         else:
-            print("\nEl video de la categoría ingresada con persepción sumamente positiva es\n")
+            print("\nEl video de la categoría ingresada con persepción sumamente positiva es, que más días ha sido trend es\n")
             print("Titulo:", video["title"])
             print("Canal:", video["channel_title"])
             print("Id categoría:", video["category_id"])
