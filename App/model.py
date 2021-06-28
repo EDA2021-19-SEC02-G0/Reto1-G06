@@ -63,12 +63,11 @@ def newCatalog(type):
     catalog = {
         "videos": None,
         "categories": None,
-        "country":None,
     }
 
     catalog["videos"] = lt.newList(lstType)
     catalog["categories"] = lt.newList(lstType, cmpCats)
-
+    
     return catalog
 
 
@@ -367,24 +366,11 @@ def ratio_likes_dislikes(likes,dislikes):
     return x
 
 def filtrobyratio_likes_dislikes(catalog,country):
-    
-    new= lt.newList("ARRAY_LIST")
-    #Get Category Id
-    countr1= lt.getElement(catalog['country'])
-    #Iteración por todos los videos
-    for video in lt.iterator(catalog['videos']):
-        if (country.lower() in video['country'].lower()) and (video['country'] == countr1):
-            lt.addLast(new, video)
-    #Ordenamiento de videos
-    srtVidsByTrendDays(new)
-
-
-    return lt.subList(new, 1,)
-    """
+  
     ans={}
     i=0
     
-    while i < len(catalog['videos']):
+    while i < lt.size(catalog['videos']):
         video=lt.getElement(catalog['videos'],i)
         likes=video['likes']
         dislikes=video['dislikes']
@@ -402,16 +388,16 @@ def filtrobyratio_likes_dislikes(catalog,country):
             newdict=ans[video_name]
             newdict['dias']+=1
             newdict['ratio_likes_dislikes']=ratio_likes_dislikes(likes,dislikes)
-          
+         
         else:
             return False
             
         i+=1
-     
     dias=0
     title=0
     channel_title=0
     ratio=0
+
     for x in ans.keys():
         newdict=ans[x]
         if newdict['dias']>dias and newdict['ratio_likes_dislikes']>ratio:
@@ -422,45 +408,5 @@ def filtrobyratio_likes_dislikes(catalog,country):
 
    
     return title,channel_title,ratio,dias
-    """
+  
 
-"""""
-def trendingvidreq2(catalog):
-       
-    
-    categoryID = lt.getElement(catalog["categories"], catPos)["id"]
-    hiPerVids = lt.newList("ARRAY_LIST", cmpVideos) #hiPerVids hace referencia a hi perception videos
-    #Recorrer todos los videos del catalogo para ver encontrar
-    #los videos en la categoría especificada y con persepción
-    #sumamente positiva
-    for video in lt.iterator(catalog["videos"]):
-        #Evitar división por 0
-        if int(video["dislikes"]) == 0:
-            likeDislikeRatio == 30
-        else:
-            likeDislikeRatio = int(video["likes"]) / int(video["dislikes"])
-        #Revisar si el video cumple los criterios
-        if (video["category_id"] == categoryID) and likeDislikeRatio > 10:
-            #Revisar si el video ya existe en trendVids
-            hiPerVidPos = lt.isPresent(hiPerVids, video["title"])
-            if hiPerVidPos > 0:
-                hiPerVid = lt.getElement(hiPerVids, hiPerVidPos)
-                #Añade 1 a la cuenta de días que ha aparecido el video
-                hiPerVid["day_count"] += 1
-            else:
-                hiPerVid = {
-                    "title": video["title"],
-                    "channel_title": video["channel_title"],
-                    "category_id": video["category_id"],
-                    "ratio_likes_dislikes": likeDislikeRatio,
-                    "day_count": 1
-                    }
-                lt.addLast(hiPerVids, hiPerVid)
-    #Revisa si hay videos que cumplen con la condición
-    if lt.isEmpty(hiPerVids):
-        return False
-    #Ordena los hiPerVids
-    srtVidsByTrendDays(hiPerVids)
-    #Retorna el video que más días ha sido trend
-    return lt.firstElement(hiPerVids)
-"""""
