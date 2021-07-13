@@ -25,7 +25,6 @@ import sys
 import controller
 from DISClib.ADT import list as lt
 assert cf
-from platform import system
 
 #Desactiva el seguimiento de memoria para mejorar rendimiento
 controller.mtTrace.trace_memory = False
