@@ -27,6 +27,9 @@ from DISClib.ADT import list as lt
 assert cf
 from platform import system
 
+#Desactiva el seguimiento de memoria para mejorar rendimiento
+controller.mtTrace.trace_memory = False
+
 
 """
 La vista se encarga de la interacción con el usuario
@@ -121,6 +124,11 @@ def topNInput() -> int:
     
     return topN
 
+
+def printTrace(trace):
+    controller.mtTrace.printTrace(trace)
+
+
 """
 Menu principal
 """
@@ -129,8 +137,12 @@ while True:
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
         #Inicializa el catálogo en modo array_list
-        catalog = initCatalog(1)
-        loadData(catalog)
+        catalog, trace1 = initCatalog(1)
+        trace2 = loadData(catalog)
+        trace1["time"] += trace2["time"]
+        if trace1["memory"] is not None:
+            trace1["memory"] += trace2["memory"]
+        printTrace(trace1)
         print('Videos cargados: ' + str(lt.size(catalog['videos'])) + "\n")
         #Información del primer video cargado
         firstVid = lt.getElement(catalog["videos"], 1)
@@ -165,9 +177,10 @@ while True:
         #User topN input
         topN = topNInput()
         #Exec
-        topVideos = controller.topVidsCatCountry(catalog, catPos, countryName,
+        topVideos, trace = controller.topVidsCatCountry(catalog, catPos, countryName,
         topN)
         #Output results
+        printTrace(trace)
         printRow([
             [15, 40, 20, 25, 10, 10, 10],
             [
@@ -202,7 +215,8 @@ while True:
         #Input del usuario
         countryName = input("Buscar en país: ")
         print("Cargando. Esta operación puede tardar")
-        video= controller.trendingVidCountry(catalog, countryName)
+        video, trace = controller.trendingVidCountry(catalog, countryName)
+        printTrace(trace)
         if video == False:
             print("Ningún video cumple con los parámetros de busqueda")
         else:
@@ -218,7 +232,8 @@ while True:
         #User category input
         catPos = categotyInput(catalog)
         print("Cargando. Esta operación puede tardar")
-        video = controller.trendingVidCat(catalog, catPos)
+        video, trace = controller.trendingVidCat(catalog, catPos)
+        printTrace(trace)
         if video == False:
             print("Nungún video cumple con los parámetros de busqueda")
         else:
@@ -236,7 +251,8 @@ while True:
         tagName = input("Etiqueta (tag) a buscar: ")
         topN = topNInput()
         print("Cargando. Esta operación puede targar.")
-        videos = controller.mostCommentedVids(catalog, countryName, tagName, topN)
+        videos, trace = controller.mostCommentedVids(catalog, countryName, tagName, topN)
+        printTrace(trace)
         if videos["size"] == 0:
             print("No se ecnontró ningún video que cumpla con las condiciones de búsqueda")
         elif videos["size"] < topN:

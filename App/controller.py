@@ -23,6 +23,7 @@
 import config as cf
 import model
 import csv
+from mtTrace import mtTrace
 
 
 """
@@ -35,8 +36,10 @@ def initCatalog(type):
     """
     Llama la funcion de inicializacion del catalogo del modelo.
     """
+    trace = mtTrace()
     catalog = model.newCatalog(type)
-    return catalog
+    trace = trace.stop()
+    return catalog, trace
 
     
 # Funciones para la carga de datos
@@ -46,8 +49,11 @@ def loadData(catalog):
     Carga los datos de los archivos y cargar los datos en la
     estructura de datos
     """
+    trace = mtTrace()
     loadCategories(catalog)
     loadVideos(catalog)
+    trace = trace.stop()
+    return trace
 
 
 def loadCategories(catalog):
@@ -84,22 +90,38 @@ def trendingVidCat(catalog, catPos):
     """
     Llama a la función model.trendingVidCat()
     """
-    return model.trendingVidCat(catalog, catPos)
+    trace = mtTrace()
+    video = model.trendingVidCat(catalog, catPos)
+    trace = trace.stop()
+    return video, trace
 
 
 def topVidsCatCountry(catalog, catPos, countryName, topN):
     """
     Llama a la función topVidsCatCountry del model.py
     """
-    return model.topVidsCatCountry(catalog, catPos, countryName,
+    trace = mtTrace()
+    video = model.topVidsCatCountry(catalog, catPos, countryName,
     topN)
+    trace = trace.stop()
+    return video, trace
 
 
 def mostCommentedVids(catalog, country, tagName, topN):
     """
     Llama a la función model.mostCommentedVids()
     """
-    return model.mostCommentedVid(catalog, country, tagName, topN)
+    trace = mtTrace()
+    video = model.mostCommentedVid(catalog, country, tagName, topN)
+    trace = trace.stop()
+    return video, trace
+
 
 def trendingVidCountry(catalog, country):
-    return model.trendingVidCountry(catalog, country)
+    """
+    Llama a la función model.trendingVidCountry()
+    """
+    trace = mtTrace()
+    video = model.trendingVidCountry(catalog, country)
+    trace = trace.stop()
+    return video, trace
